@@ -26,10 +26,9 @@ params = {
        "sort": "full_name"
     }
 
-owner = 'randallbullard' #str(input('Enter target username: '))
+owner = str(input('Enter target username: '))
 
 def main():
-    print(f'{gh_url}/{owner}/repos')
     r = httpx.get(f'{gh_url}/users/{owner}/repos', headers = headers, params = params) # Build list of repos request
     
     if r.status_code == 200:

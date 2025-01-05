@@ -34,6 +34,7 @@ password = gh_key
 
 for folder in folders:
     if folder == "asteroids":
+        print(f'https://github.com/randallbullard/{folder}.git')
         r = httpx.get(f'https://github.com/randallbullard/{folder}.git') # Build list of repos request
         print(r.status_code)
     
