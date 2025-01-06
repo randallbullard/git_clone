@@ -12,29 +12,9 @@ load_dotenv()
 gh_key = os.getenv('API_KEY')
 
 
-def list_folders(path='../'):
-    """Lists all folders in the specified directory.
-
-    Args:
-        path (str): The path to the directory. Defaults to the current directory.
-
-    Returns:
-        list: A list of folder names.
-    """
-
-    folders = []
-    for entry in os.listdir(path):
-        if os.path.isdir(os.path.join(path, entry)):
-            folders.append(entry)
-    return folders
-
-folders = list_folders()
-user = "randallbullard"
-password = gh_key
-
-for folder in folders:
-    if folder == "asteroids":
-        print(f'https://github.com/randallbullard/{folder}.git')
-        r = httpx.get(f'https://github.com/randallbullard/{folder}.git') # Build list of repos request
-        print(r.status_code)
-    
+with open('/home/randallbullard/programming/python/github_repos/git_clone_script/repos.txt', "r") as repo_list:
+    for line in repo_list:
+        for repo in line.split():
+            url = f"https://github.com/randallbullard/{repo}.git"
+            clone_string = f"git clone {url}"
+            os.system(clone_string)
