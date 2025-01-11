@@ -1,9 +1,9 @@
-# Import Modules
+""" Import Modules """
+
 import os
-import httpx
 
 # Read Repo list and clone repos
-with open('/home/randallbullard/programming/python/github_repos/git_clone_script/repos.txt', "r") as repo_list:
+with open("./git_clone_script/repos.txt", "r", encoding="utf-8") as repo_list:
     for line in repo_list:
         for repo in line.split():
             url = f"https://github.com/randallbullard/{repo}.git"
