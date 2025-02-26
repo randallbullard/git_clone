@@ -2,11 +2,11 @@
 
 # Import Modules
 import os
-import truststore
-truststore.inject_into_ssl()
 from dotenv import load_dotenv
 import httpx
 import json
+import truststore
+truststore.inject_into_ssl()
 
 # load the dotenv file
 load_dotenv()
@@ -15,37 +15,41 @@ load_dotenv()
 gh_key = os.getenv('API_KEY')
 gh_url = os.getenv('BASEURL')
 
+# Authorization Header for Github API
 headers = {
-    "Authorization": f"Bearer {gh_key}",
-    "Accept": "application/vnd.github.v3+json"
+    "Authorization": f"Bearer {gh_key}"
     }
 
-params = {
-       "visibility": "all",
-       "affiliation": "owner",
-       "sort": "full_name"
-    }
+# Get the current working directory
+current_directory = os.getcwd()
 
-owner = str(input('Enter target username: '))
+# Define the filename for the output file
+filename = "repos.txt"
 
-def main():
-    r = httpx.get(f'{gh_url}/users/{owner}/repos', headers = headers, params = params) # Build list of repos request
+# Construct the full file path
+filepath = os.path.join(current_directory, filename)
+
+def repo_clone():
+    # create the call to the API
+    r = httpx.get(f'{gh_url}/user/repos', headers = headers)
     
+    # Check if the call was successful
     if r.status_code == 200:
-        r_dict = r.json() # Convert json into dictionary
-        for i in range(len(r_dict)):
-            for key,value in r_dict[i].items():
-                if key == 'name':
-                    print(value)
-        
-    else:
-        print(r.status_code)
-    
+        with open(filepath, "w") as file:
+            repos = r.json()
+            for repo in repos:
+                file.write(repo['name'] + "\n")
 
+    # Read Repo list and clone repos
+    with open(filepath, "r", encoding="utf-8") as repo_list:
+        for line in repo_list:
+            for repo in line.split():
+                url = f"https://github.com/randallbullard/{repo}.git"
+                clone_string = f"git clone {url}"
+                os.system(clone_string)
 
-
-
-main()
+# Execute the function
+repo_clone()
 
 
 
