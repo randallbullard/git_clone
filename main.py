@@ -4,7 +4,6 @@
 import os
 from dotenv import load_dotenv
 import httpx
-import json
 import truststore
 truststore.inject_into_ssl()
 
@@ -23,19 +22,20 @@ headers = {
 # Get the current working directory
 current_directory = os.getcwd()
 
-# Define the filename for the output file
-filename = "repos.txt"
+# Define the FILENAME for the output file
+FILENAME = "repos.txt"
 
 # Construct the full file path
-filepath = os.path.join(current_directory, filename)
+filepath = os.path.join(current_directory, FILENAME)
 
 def repo_clone():
+    """ Function to clone all repos from a Github account """
     # create the call to the API
     r = httpx.get(f'{gh_url}/user/repos', headers = headers)
-    
+
     # Check if the call was successful
     if r.status_code == 200:
-        with open(filepath, "w") as file:
+        with open(filepath, "w", encoding='utf-8') as file:
             repos = r.json()
             for repo in repos:
                 file.write(repo['name'] + "\n")
@@ -50,22 +50,5 @@ def repo_clone():
 
 # Execute the function
 repo_clone()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# if __name__ == '__main__':
-#     main()
 
 # EOF
