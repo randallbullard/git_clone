@@ -1,0 +1,107 @@
+
+# Git Clone
+
+## Description
+**Git Clone** is a Python script that reads all GitHub repositories for a specified user account based on the Personal Access Token, creates a `repos.txt` file containing the list of repositories, and then uses the file to download all the repositories into the current directory.
+
+### Key Features:
+- Generates a `repos.txt` file with the repository names.
+- Clones repositories listed in the `repos.txt` file into the current directory.
+
+## Prerequisites
+- Git installed on your system.
+- **Python 3.x** installed.
+- An active internet connection.
+- Requires **Personal Access Token (PAT)**. PAT is stored as API_KEY in an .env file (not included).
+- **Personal Access Token (PAT)** with appropriate scopes required to access target private repositories.
+
+### GitHub PAT Scopes Required:
+- `repo` (to access public and private repositories)
+- `read:org` (if you want to access private organization repositories)
+
+## Installation
+1. Clone the repository containing this script:
+    ```bash
+    git clone https://github.com/your-username/git_clone_script.git
+    ```
+2. Navigate to the target directory to save the repo(s):
+    ```bash
+    cd <TARGET DIRECTORY>
+    ```
+3. Create Virtual Environment (if desired):
+    python -m venv <VIRTUAL_ENV_NAME>
+    ```
+4. Install dependencies (if applicable):
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+## Usage
+Run the Python script by providing the GitHub username:
+```bash
+python git_clone.py
+```
+
+This will:
+- Fetch all repositories (public and private) the **PAT** is authorized to access.
+- Create a `repos.txt` file with the list of repository URLs.
+- Clone each repository into the current directory.
+
+## Configuration
+A **PAT** is required in a .env file (looks for .env in current repo directory).
+API_KEY=<PERSONAL_ACCESS_TOKEN>
+
+### How to Create a Personal Access Token:
+1. Go to your GitHub account settings.
+2. Navigate to **Developer settings** > **Personal access tokens**.
+3. Click on **Generate new token**.
+4. Select the required scopes:
+    - `repo`: Full control of private repositories.
+    - `read:org`: Access private organization repositories (if needed).
+5. Generate and **copy** the token (it will only be shown once).
+
+**⚠️ Keep your PAT secure and never share it publicly!**
+
+## Example `repos.txt` File
+After running the script, the `repos.txt` file will look like this:
+```
+repo1
+repo2
+repo3
+```
+
+## Contributing
+Contributions are welcome! Please follow these steps:
+1. Fork the repository.
+2. Create a new branch (`feature-branch-name`).
+3. Commit your changes.
+4. Push to the branch.
+5. Create a pull request.
+
+## License
+MIT License
+
+Copyright (c) 2024 Randall Bullard
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+## Contact
+For questions or support, feel free to reach out:
+- GitHub: [your-username](https://github.com/randallbullard)
+- Email: your.email@example.com
