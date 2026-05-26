@@ -2,11 +2,12 @@
 # Git Clone
 
 ## Description
-**Git Clone** is a Python script that reads all GitHub repositories for a specified user account based on the Personal Access Token, creates a `repos.txt` file containing the list of repositories, and then uses the file to download all the repositories into the current directory.
+**Git Clone** is a Python script that reads all GitHub repositories available to the authenticated user and downloads them into the current directory.
 
 ### Key Features:
-- Generates a `repos.txt` file with the repository names.
-- Clones repositories listed in the `repos.txt` file into the current directory.
+- Clones repositories available to the authenticated GitHub user.
+- Supports HTTPS and SSH clone URLs.
+- Skips repositories when a matching destination directory already exists.
 
 ## Prerequisites
 - Git installed on your system.
@@ -28,28 +29,56 @@
     ```bash
     cd <TARGET DIRECTORY>
     ```
-3. Create Virtual Environment (if desired):
+3. Create and activate a virtual environment. This is recommended so the application uses its own dependency versions instead of whatever is installed globally:
+    ```bash
     python -m venv <VIRTUAL_ENV_NAME>
     ```
-4. Install dependencies (if applicable):
+    ```bash
+    source <VIRTUAL_ENV_NAME>/bin/activate
+    ```
+    On Windows:
+    ```powershell
+    <VIRTUAL_ENV_NAME>\Scripts\Activate.ps1
+    ```
+4. Install the application dependencies:
     ```bash
     pip install -r requirements.txt
     ```
 
 ## Usage
-Run the Python script by providing the GitHub username:
+Run the Python script:
 ```bash
 python git_clone.py
 ```
 
 This will:
-- Fetch all repositories (public and private) the **PAT** is authorized to access.
-- Create a `repos.txt` file with the list of repository URLs.
+- Fetch all repositories (public and private) the authenticated user can access.
 - Clone each repository into the current directory.
+- Skip repositories when a matching destination directory already exists.
+
+Clone using HTTPS, which is the default:
+```bash
+python git_clone.py --protocol https
+```
+
+Clone using SSH:
+```bash
+python git_clone.py --protocol ssh
+```
+
+Preview clone commands without downloading repositories:
+```bash
+python git_clone.py --protocol ssh --dry-run
+```
 
 ## Configuration
-A **PAT** is required in a .env file (looks for .env in current repo directory).
+A GitHub token is required. The script first checks for `API_KEY` in a `.env` file, then falls back to an existing GitHub CLI login from `gh auth login`.
+
+Example `.env`:
+```bash
 API_KEY=<PERSONAL_ACCESS_TOKEN>
+BASEURL=https://api.github.com
+```
 
 ### How to Create a Personal Access Token:
 1. Go to your GitHub account settings.
@@ -61,14 +90,6 @@ API_KEY=<PERSONAL_ACCESS_TOKEN>
 5. Generate and **copy** the token (it will only be shown once).
 
 **⚠️ Keep your PAT secure and never share it publicly!**
-
-## Example `repos.txt` File
-After running the script, the `repos.txt` file will look like this:
-```
-repo1
-repo2
-repo3
-```
 
 ## Contributing
 Contributions are welcome! Please follow these steps:
